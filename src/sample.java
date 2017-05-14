@@ -1,37 +1,16 @@
 
 /*******************************************************************
 * Name: 
-* Class:
-* Date:
-* Notes:
+* 	Nghi Nguyen
+* 	Yimin Mei
+* Class: CS 154
+* Notes: NP-complete 1/0 knapsack problem
 *
 ********************************************************************/
 import java.lang.Math;
 import java.util.Random;
 
 public class sample{
-
-	/*static class ID implements Comparable<ID>{
-		double price;
-		int weight;
-		double pricePerWeight;
-
-		public ID(double a , int b){
-			price = a;
-			weight = b;
-			pricePerWeight = (double)a/ (double)b;
-		}
-		public int compareTo(ID o) {
-			if( price> o.price)
-				return 1;
-			if( price< o.price)
-				return -1;
-			return 0;
-		}
-	
-	}*/
-	
-	
 	
 	private static double[] results;
 	private static Random random = new Random();
@@ -92,26 +71,27 @@ public class sample{
         	results[a]=-99999;
    
         for(int a=0; a<prices.length ; a++){
-        	items[a]= new ID(prices[a], weights[a]  );
+        	items[a]= new ID(prices[a], weights[a]);
         	
         }
         
-     // find the maximum bound
+        // find the maximum bound
         double maxF = bound( items,weight);
         System.out.println("maxF = "+maxF);
+        
         /**
          * we need to sort the price descending
          */
         QuickSort.quickSortPrice(items);//sort by price ascending
         
-        System.out.println("after sort");
+     
         for(int c = 0 ;c<prices.length ;c++){
         	sortedPrices[c] =items[c].price; // the price will become descending
         	sortedWeights[c]=items[c].weight;
       
         	
         }
-        System.out.println("-----");
+     
         
         //use dynamic programming to identify optimal maximun value the Knabsack can get 
         return maxprofit(sortedPrices,sortedWeights,weight,0, maxF); 
@@ -148,24 +128,24 @@ public class sample{
     
     /*
      * get the bound for the knapsack: 
-     * the maximum value the knapsack can get using Fractinal knappsack greedy approach
+     * the maximum value the knapsack can get using Fractional knapsack greedy approach
      * the 0/1 knapsack maximum value can't be greater than the bound
      */
-    public static double bound( /*double[] prices ,int[] weights*/ ID[] items, double weight){
+    public static double bound( ID[] items, double weight){
        
     	int k =0;
     	int bound =0;
         int totalWeight =0;
         QuickSort.quickSortPricePerWeight(items);
         
-        while ((k<items.length) && (totalWeight + items[k].weight <= weight)){
-			totalWeight += items[k].weight;
-			bound += items[k].price;
+        while ((k<items.length) && (totalWeight + items[k].getWeight() <= weight)){
+			totalWeight += items[k].getWeight();
+			bound += items[k].getPrice();
 			k++;
 		}
 		
 		if(k < items.length){
-			bound += (weight - totalWeight) * (items[k].pricePerWeight);
+			bound += (weight - totalWeight) * (items[k].getPricePerWeight());
 			
 		}
         
